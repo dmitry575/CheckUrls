@@ -3,7 +3,7 @@ namespace CheckUrls
 {
     public class Options
     {
-        [Option('f', "file", Required = true, HelpText = "Set input file with links where need search url")]
+        [Option('f', "file", Required = true, HelpText = "Set input file with urls need check status")]
         public string FileName { get; set; }
 
         [Option('o', "out", Required = true, HelpText = "Set out file with result")]
