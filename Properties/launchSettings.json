@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CheckUrls": {
+      "commandName": "Project",
+      "commandLineArgs": "-f urls.txt -o r.txt"
+    }
+  }
+}

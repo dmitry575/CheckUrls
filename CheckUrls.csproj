@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <Authors>Dmitry Tarakanov</Authors>
+    <Company>Dmitry Tarakanov</Company>
+    <Product>Check urls for response</Product>
+    <Description>Program for quick and easy check urls.</Description>
+    <RepositoryUrl>https://github.com/dmitry575</RepositoryUrl>
+    <PackageTags>CheckUrls</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.8.0" />
+  </ItemGroup>
+
+</Project>
