@@ -34,14 +34,16 @@ namespace CheckUrls
         /// </summary>
         private readonly TaskQueue _taskQueue;
 
-        private readonly HttpClient _httpClient = new HttpClient
-        {
-            MaxResponseContentBufferSize = 1_000_000,
-            AllowAutoRedirect = false
-        };
+        private readonly HttpClient _httpClient;
 
         public CheckService(Options options)
         {
+            var httpClientHandler = new HttpClientHandler() { AllowAutoRedirect = false };
+            _httpClient = new HttpClient(httpClientHandler)
+            {
+                MaxResponseContentBufferSize = 1_000_000
+            };
+
             _options = options;
             _taskQueue = new TaskQueue(MaxThreads);
             _httpClient.DefaultRequestHeaders.Add("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9");
@@ -128,7 +130,7 @@ namespace CheckUrls
                 Write($"File not exists: {_options.FileName}");
                 return false;
             }
-            
+
             return true;
         }
 

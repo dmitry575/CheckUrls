@@ -9,6 +9,7 @@ namespace CheckUrls
 {
     class Program
     {
+        private static bool _hasError = false;
         static async Task Main(string[] args)
         {
             Console.WriteLine($"Start program checking urls");
@@ -17,19 +18,25 @@ namespace CheckUrls
 
             var options = new Options();
             var arguments = Parser.Default.ParseArguments<Options>(args)
-                .WithParsed(x => options = x);
+                .WithParsed(x => options = x)
+                .WithNotParsed(HandleParseError);
 
-            var checkUrls = new CheckService(options);
-            await checkUrls.CheckAsync();
+            if (!_hasError)
+            {
 
-            checkUrls.PrintResult();
+                var checkUrls = new CheckService(options);
+                await checkUrls.CheckAsync();
+
+                checkUrls.PrintResult();
+            }
         }
 
         static void HandleParseError(IEnumerable<Error> errors)
         {
+
             foreach (var error in errors)
             {
-                Console.WriteLine(error.Tag);
+                _hasError = true;
             }
         }
 
