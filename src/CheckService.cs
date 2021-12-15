@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
@@ -11,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace CheckUrls
 {
-
     class CheckService
     {
         /// <summary>
@@ -72,7 +70,7 @@ namespace CheckUrls
 
             for (int i = 0; i < listUrl.Count; i++)
             {
-                var url = listUrl[i];
+                var url = listUrl[i].Trim();
                 tasks[i] = _taskQueue.Enqueue(async () => await GetAsync(url));
             }
 
@@ -104,7 +102,7 @@ namespace CheckUrls
                 var res = await _httpClient.GetAsync(url);
                 _results.TryAdd(res.StatusCode, url);
 
-                Write($"result: {res} - {url}");
+                Write($"result:  {url}{(res.StatusCode == HttpStatusCode.Moved ? ", " + res.Headers.Location : string.Empty)}, {res}");
             }
             catch (HttpRequestException e)
             {
@@ -116,7 +114,6 @@ namespace CheckUrls
             {
                 Write($"error get url: {url}, {e.Message}");
                 _results.TryAdd(HttpStatusCode.NotFound, url);
-
             }
         }
 
@@ -157,6 +154,7 @@ namespace CheckUrls
                     AddToSb(res.Value, sb);
                 }
             }
+
             File.WriteAllText(_options.OutName, sb.ToString());
             Write("");
             Write(sb.ToString());
@@ -171,6 +169,5 @@ namespace CheckUrls
                 sb.Append("\r\n");
             }
         }
-
     }
 }

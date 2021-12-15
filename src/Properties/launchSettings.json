@@ -2,7 +2,7 @@
   "profiles": {
     "CheckUrls": {
       "commandName": "Project",
-      "commandLineArgs": "-f urls.txt -o r.txt"
+      "commandLineArgs": "-f urls.txt -o r.txt -v"
     }
   }
 }
