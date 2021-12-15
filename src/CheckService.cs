@@ -15,7 +15,7 @@ namespace CheckUrls
         /// <summary>
         /// Max threads for parsing pages
         /// </summary>
-        private const int MaxThreads = 5;
+        private const int MaxThreads = 1;
 
         /// <summary>
         /// Options from user
@@ -36,10 +36,10 @@ namespace CheckUrls
 
         public CheckService(Options options)
         {
-            var httpClientHandler = new HttpClientHandler() { AllowAutoRedirect = false };
+            var httpClientHandler = new HttpClientHandler() { AllowAutoRedirect = false,MaxRequestContentBufferSize = 10_000_000};
             _httpClient = new HttpClient(httpClientHandler)
             {
-                MaxResponseContentBufferSize = 1_000_000
+                MaxResponseContentBufferSize = 10_000_000
             };
 
             _options = options;
@@ -113,7 +113,7 @@ namespace CheckUrls
             catch (Exception e)
             {
                 Write($"error get url: {url}, {e.Message}");
-                _results.TryAdd(HttpStatusCode.NotFound, url);
+                _results.TryAdd(HttpStatusCode.InternalServerError, url);
             }
         }
 
